@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Club Atlético Independiente</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+<header class="titulo">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Escudo_del_Club_Atl%C3%A9tico_Independiente.svg/250px-Escudo_del_Club_Atl%C3%A9tico_Independiente.svg.png" alt="Escudo de Independiente" class="escudo">
+  <h1>Club Atlético Independiente</h1>
+</header>
+
+<nav>
+  <a href="index.html"><button>Menú</button></a>
+    <a href="jugadores.html"><button>Jugadores</button></a> 
+  <a href="titulos.html"><button>Títulos</button></a>
+
+</nav>
+
+<section id="jugadores">
+  <h2>Los 3 mejores jugadores del plantel actualmente</h2>
+  <div id="destacados"></div> <!-- Aquí se insertan los jugadores desde JS -->
+</section>
+
+<script>
+  function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+  }
+</script>
+
+<script src="destacados.js"></script>
+
+<footer>
+  <a href="index.html">Menú</a>
+  |
+  <a href="jugadores.html">Jugadores</a>
+  |
+  <a href="titulos.html">Títulos</a>
+  |
+  <a href="index.html">contactanos</a>
+</footer>
+
+</body>
+</html>
