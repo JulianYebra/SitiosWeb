@@ -17,12 +17,13 @@
   <a href="index.html"><button>Menú</button></a>
     <a href="jugadores.html"><button>Jugadores</button></a> 
   <a href="titulos.html"><button>Títulos</button></a>
-
 </nav>
+
+<div id="CounterVisitor"></div>
 
 <section id="jugadores">
   <h2>Los 3 mejores jugadores del plantel actualmente</h2>
-  <div id="destacados"></div> <!-- Aquí se insertan los jugadores desde JS -->
+  <div id="destacados"></div> <!-- aca se insertan los jugadores desde JS -->
 </section>
 
 <script>
@@ -30,6 +31,28 @@
     document.getElementById(id).scrollIntoView({ behavior: "smooth" });
   }
 </script>
+
+<script>
+  var n = localStorage.getItem('on_load_counter');
+  if (n === null) {
+    n = 0;
+  }
+  n++;
+  localStorage.setItem("on_load_counter", n);
+
+  let nums = n.toString().split('').map(Number);
+  let counterHTML = '<div class="counter-title">Visitas a la página</div>';
+  counterHTML += '<div class="counter-number">';
+  for (var i of nums) {
+    counterHTML += '<div class="counter-digit">' + i + '</div>';
+  }
+  counterHTML += '</div>';
+  counterHTML += '<div class="counter-label"></div>';
+
+  document.getElementById('CounterVisitor').innerHTML = counterHTML;
+</script>
+
+
 
 <script src="destacados.js"></script>
 
