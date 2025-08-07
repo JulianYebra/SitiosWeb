@@ -1,31 +1,3 @@
-// document.addEventListener('DOMContentLoaded', function () {
-//   const jugadores = document.querySelectorAll('.jugador-card');
-
-//   jugadores.forEach(card => {
-//     const id = card.getAttribute('data-id');
-//     const contadorElem = card.querySelector('.contador');
-//     const btnMas = card.querySelector('.incrementar');
-//     const btnMenos = card.querySelector('.decrementar');
-
-//     let contador = parseInt(localStorage.getItem(`votos_${id}`)) || 0;
-//     contadorElem.textContent = contador;
-
-//     btnMas.addEventListener('click', function () {
-//       contador++;
-//       localStorage.setItem(`votos_${id}`, contador);
-//       contadorElem.textContent = contador;
-//     });
-
-//     btnMenos.addEventListener('click', function () {
-//       if (contador > 0) {
-//         contador--;
-//         localStorage.setItem(`votos_${id}`, contador);
-//         contadorElem.textContent = contador;
-//       }
-//     });
-//   });
-// });
-
 document.addEventListener('DOMContentLoaded', function () {
   const jugadores = document.querySelectorAll('.jugador-card');
 

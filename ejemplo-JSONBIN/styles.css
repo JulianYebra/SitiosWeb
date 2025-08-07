@@ -1,0 +1,276 @@
+/* Estilos para el ejemplo de JSONBin.io */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    text-align: center;
+    color: #4a5568;
+    margin-bottom: 10px;
+    font-size: 2.5em;
+}
+
+h2 {
+    color: #2d3748;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+p {
+    text-align: center;
+    color: #718096;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+.section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f7fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+input[type="text"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    font-family: inherit;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+textarea {
+    font-family: 'Courier New', monospace;
+    resize: vertical;
+    min-height: 150px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(72, 187, 120, 0.4);
+}
+
+button:not(.btn-primary):not(.btn-secondary) {
+    background: #4a5568;
+    color: white;
+}
+
+button:not(.btn-primary):not(.btn-secondary):hover {
+    background: #2d3748;
+    transform: translateY(-1px);
+}
+
+.results-area {
+    min-height: 100px;
+    padding: 15px;
+    background: #1a202c;
+    color: #e2e8f0;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    overflow-x: auto;
+}
+
+.result-success {
+    background: #c6f6d5;
+    color: #22543d;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #38a169;
+}
+
+.result-error {
+    background: #fed7d7;
+    color: #742a2a;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #e53e3e;
+}
+
+.result-info {
+    background: #bee3f8;
+    color: #2a4365;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #3182ce;
+}
+
+.example-data {
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 20px;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+.example-data pre {
+    margin-top: 15px;
+    padding: 15px;
+    background: #1a202c;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 13px;
+    border: 1px solid #4a5568;
+}
+
+.bin-item {
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 10px;
+}
+
+.bin-item button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    font-size: 12px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    button {
+        width: 100%;
+    }
+    
+    .section {
+        padding: 15px;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.result-success,
+.result-error,
+.result-info {
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Efectos de hover mejorados */
+.section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Estilos para enlaces */
+a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos para código inline */
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}

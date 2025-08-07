@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo JSONBin.io - Leer y Guardar Datos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📦 Ejemplo JSONBin.io</h1>
+        <p>Ejemplo para leer y guardar datos usando JSONBin.io</p>
+        
+        <!-- Configuración de API -->
+        <div class="section">
+            <h2>🔧 Configuración</h2>
+            <div class="form-group">
+                <label for="apiKey">API Key de JSONBin.io:</label>
+                <input type="password" id="apiKey" placeholder="Ingresa tu API Key">
+                <button onclick="saveApiKey()">Guardar API Key</button>
+            </div>
+            <div class="form-group">
+                <label for="binId">Bin ID (opcional para nuevo bin):</label>
+                <input type="text" id="binId" placeholder="ID del bin existente">
+            </div>
+        </div>
+
+        <!-- Crear/Actualizar datos -->
+        <div class="section">
+            <h2>📝 Crear/Actualizar Datos</h2>
+            <div class="form-group">
+                <label for="jsonData">Datos JSON:</label>
+                <textarea id="jsonData" rows="8" placeholder='{"nombre": "Juan", "edad": 30, "ciudad": "Madrid"}'></textarea>
+            </div>
+            <div class="button-group">
+                <button onclick="createBin()" class="btn-primary">Crear Nuevo Bin</button>
+                <button onclick="updateBin()" class="btn-secondary">Actualizar Bin Existente</button>
+            </div>
+        </div>
+
+        <!-- Leer datos -->
+        <div class="section">
+            <h2>📖 Leer Datos</h2>
+            <div class="button-group">
+                <button onclick="readBin()" class="btn-primary">Leer Datos del Bin</button>
+                <button onclick="listBins()" class="btn-secondary">Listar Mis Bins</button>
+            </div>
+        </div>
+
+        <!-- Resultados -->
+        <div class="section">
+            <h2>📋 Resultados</h2>
+            <div id="results" class="results-area"></div>
+        </div>
+
+        <!-- Ejemplo de datos -->
+        <div class="section">
+            <h2>💡 Ejemplo de Datos</h2>
+            <div class="example-data">
+                <button onclick="loadExampleData()">Cargar Datos de Ejemplo</button>
+                <pre>{
+  "usuarios": [
+    {
+      "id": 1,
+      "nombre": "Ana García",
+      "email": "ana@email.com",
+      "activo": true
+    },
+    {
+      "id": 2,
+      "nombre": "Carlos López",
+      "email": "carlos@email.com",
+      "activo": false
+    }
+  ],
+  "configuracion": {
+    "tema": "oscuro",
+    "idioma": "es",
+    "notificaciones": true
+  }
+}</pre>
+            </div>
+        </div>
+    </div>
+
+    <script src="jsonbin-client.js"></script>
+    <script>
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar API key guardada si existe
+            const savedApiKey = localStorage.getItem('jsonbin_api_key');
+            if (savedApiKey) {
+                document.getElementById('apiKey').value = savedApiKey;
+                jsonbinClient.setApiKey(savedApiKey);
+            }
+        });
+
+        function saveApiKey() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            if (apiKey) {
+                localStorage.setItem('jsonbin_api_key', apiKey);
+                jsonbinClient.setApiKey(apiKey);
+                showResult('✅ API Key guardada correctamente', 'success');
+            } else {
+                showResult('❌ Por favor ingresa una API Key válida', 'error');
+            }
+        }
+
+        function loadExampleData() {
+            const exampleData = {
+                "usuarios": [
+                    {
+                        "id": 1,
+                        "nombre": "Ana García",
+                        "email": "ana@email.com",
+                        "activo": true
+                    },
+                    {
+                        "id": 2,
+                        "nombre": "Carlos López",
+                        "email": "carlos@email.com",
+                        "activo": false
+                    }
+                ],
+                "configuracion": {
+                    "tema": "oscuro",
+                    "idioma": "es",
+                    "notificaciones": true
+                }
+            };
+            
+            document.getElementById('jsonData').value = JSON.stringify(exampleData, null, 2);
+            showResult('📝 Datos de ejemplo cargados', 'info');
+        }
+
+        async function createBin() {
+            const jsonData = document.getElementById('jsonData').value.trim();
+            
+            if (!jsonData) {
+                showResult('❌ Por favor ingresa datos JSON', 'error');
+                return;
+            }
+
+            try {
+                const parsedData = JSON.parse(jsonData);
+                showResult('🔄 Creando nuevo bin...', 'info');
+                
+                const result = await jsonbinClient.createBin(parsedData);
+                document.getElementById('binId').value = result.metadata.id;
+                
+                showResult(`✅ Bin creado exitosamente!<br>
+                           <strong>Bin ID:</strong> ${result.metadata.id}<br>
+                           <strong>URL:</strong> <a href="${result.metadata.url}" target="_blank">${result.metadata.url}</a>`, 'success');
+            } catch (error) {
+                showResult(`❌ Error al crear bin: ${error.message}`, 'error');
+            }
+        }
+
+        async function updateBin() {
+            const binId = document.getElementById('binId').value.trim();
+            const jsonData = document.getElementById('jsonData').value.trim();
+            
+            if (!binId) {
+                showResult('❌ Por favor ingresa un Bin ID', 'error');
+                return;
+            }
+            
+            if (!jsonData) {
+                showResult('❌ Por favor ingresa datos JSON', 'error');
+                return;
+            }
+
+            try {
+                const parsedData = JSON.parse(jsonData);
+                showResult('🔄 Actualizando bin...', 'info');
+                
+                const result = await jsonbinClient.updateBin(binId, parsedData);
+                
+                showResult(`✅ Bin actualizado exitosamente!<br>
+                           <strong>Bin ID:</strong> ${result.metadata.id}<br>
+                           <strong>Versión:</strong> ${result.metadata.version}`, 'success');
+            } catch (error) {
+                showResult(`❌ Error al actualizar bin: ${error.message}`, 'error');
+            }
+        }
+
+        async function readBin() {
+            const binId = document.getElementById('binId').value.trim();
+            
+            if (!binId) {
+                showResult('❌ Por favor ingresa un Bin ID', 'error');
+                return;
+            }
+
+            try {
+                showResult('🔄 Leyendo datos del bin...', 'info');
+                
+                const result = await jsonbinClient.readBin(binId);
+                
+                showResult(`✅ Datos leídos exitosamente!<br>
+                           <strong>Datos:</strong><br>
+                           <pre>${JSON.stringify(result.record, null, 2)}</pre>`, 'success');
+            } catch (error) {
+                showResult(`❌ Error al leer bin: ${error.message}`, 'error');
+            }
+        }
+
+        async function listBins() {
+            try {
+                showResult('🔄 Obteniendo lista de bins...', 'info');
+                
+                const bins = await jsonbinClient.listBins();
+                
+                let html = '✅ Lista de bins:<br><br>';
+                bins.forEach(bin => {
+                    html += `<div class="bin-item">
+                                <strong>ID:</strong> ${bin.id}<br>
+                                <strong>Nombre:</strong> ${bin.name || 'Sin nombre'}<br>
+                                <strong>Creado:</strong> ${new Date(bin.createdAt).toLocaleString()}<br>
+                                <button onclick="document.getElementById('binId').value='${bin.id}'">Usar este Bin</button>
+                             </div><br>`;
+                });
+                
+                showResult(html, 'success');
+            } catch (error) {
+                showResult(`❌ Error al listar bins: ${error.message}`, 'error');
+            }
+        }
+
+        function showResult(message, type) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `<div class="result-${type}">${message}</div>`;
+        }
+    </script>
+</body>
+</html>

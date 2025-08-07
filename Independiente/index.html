@@ -27,6 +27,7 @@
   <div id="destacados"></div> <!-- aca se insertan los jugadores desde JS -->
 </section>
 
+
 <script>
   function scrollToSection(id) {
     document.getElementById(id).scrollIntoView({ behavior: "smooth" });
@@ -34,25 +35,107 @@
 </script>
 
 <script>
-  var n = localStorage.getItem('on_load_counter');
-  if (n === null) {
-    n = 0;
-  }
-  n++;
-  localStorage.setItem("on_load_counter", n);
+  
+async  function dibujarContador(data) {
 
-  let nums = n.toString().split('').map(Number);
-  let counterHTML = '<div class="counter-title">Visitas a la página</div>';
-  counterHTML += '<div class="counter-number">';
-  for (var i of nums) {
-    counterHTML += '<div class="counter-digit">' + i + '</div>';
-  }
-  counterHTML += '</div>';
-  counterHTML += '<div class="counter-label"></div>';
+//localStorage.setItem("datosJSON", result);
 
-  document.getElementById('CounterVisitor').innerHTML = counterHTML;
+
+    var n = data.visitas;
+
+
+    if (n === null) {
+      n = 0;
+    }
+    n++;
+    //localStorage.setItem("on_load_counter", n);
+
+    data.visitas = n;
+
+    let nums = n.toString().split('').map(Number);
+    let counterHTML = '<div class="counter-title">Visitas a la página</div>';
+    counterHTML += '<div class="counter-number">';
+      for (var i of nums) {
+        counterHTML += '<div class="counter-digit">' + i + '</div>';
+      }
+    counterHTML += '</div>';
+    counterHTML += '<div class="counter-label"></div>';
+
+    document.getElementById('CounterVisitor').innerHTML = counterHTML;
+
+      updateBin(data);
+
+  }
 </script>
 
+
+<script src="jsonbin-client.js"></script>
+<script>
+
+    // Esto se ejecutará una sola vez cuando la página se cargue por primera vez
+    window.addEventListener('DOMContentLoaded', function () {
+      //console.log('La página se ha renderizado por primera vez');
+      // Aquí puedes poner cualquier lógica que quieras ejecutar solo una vez
+      leerContador();
+    });
+
+  async function leerContador() {
+            const binId = '68929a10ae596e708fc29f09';
+            
+            try {
+                
+              const result = await jsonbinClient.readBin();
+
+              dibujarContador( result.record);
+
+              contarVotos(result.record.votos)
+
+
+
+
+            } catch (error) {
+                console.log(`❌ Error al leer bin: ${error.message}`, 'error');
+            }
+        }
+</script>
+
+<script>
+
+  async function updateBin(data){
+    
+    
+      try {
+      
+        const result = await jsonbinClient.updateBin(data);   
+      }
+      catch(error) {
+                  console.log(`❌ Error al actualizar bin: ${error.message}`, 'error');
+        
+      }
+    }
+
+</script>
+
+
+<script>
+
+function contarVotos(votos){
+
+  // Convertir el objeto en un array de pares [clave, valor]
+  const pares = Object.entries(votos);
+
+  // Ordenar por la cantidad de votos, de mayor a menor
+  const ordenados = pares.sort((a, b) => b[1] - a[1]);
+
+  // Tomar los primeros 3
+  const top3 = ordenados.slice(0, 3);
+
+  localStorage.setItem("JugadoresDestacados",JSON.stringify(top3))
+
+  //return JSON.stringify(top3); // Devuelve array de [clave, valor]
+}
+
+</script>
 
 
 <script src="destacados.js"></script>
@@ -64,7 +147,7 @@
   |
   <a href="titulos.html">Títulos</a>
   |
-  <a href="index.html">contactanos</a>
+  <a href="index.html">Reseñas</a>
 </footer>
 
 </body>
