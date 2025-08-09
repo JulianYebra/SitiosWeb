@@ -1,51 +1,67 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const jugadores = document.querySelectorAll('.jugador-card');
+function cargarVotos() {
+  // Cargar datos desde localStorage
+  const data = JSON.parse(localStorage.getItem("data")) || { votos: {} };
 
-  jugadores.forEach(card => {
-    const id = card.getAttribute('data-id');
-    const contadorElem = card.querySelector('.contador');
-    const btnMas = card.querySelector('.incrementar');
-    const btnMenos = card.querySelector('.decrementar');
+  // Recorrer todas las tarjetas de jugadores
+  document.querySelectorAll(".jugador-card").forEach(card => {
+    const id = card.dataset.id; // data-id del jugador
+    const contador = card.querySelector(".contador");
 
-    let contador = parseInt(localStorage.getItem(`votos_${id}`)) || 0;
-    let votoPropio = localStorage.getItem(`votoPropio_${id}`) === 'true';
-
-    contadorElem.textContent = contador;
-
-    function actualizarInterfaz() {
-      if (votoPropio) {
-        btnMas.disabled = true;
-        btnMenos.disabled = false;
-      } else {
-        btnMas.disabled = false;
-        btnMenos.disabled = true;
-      }
+    if (id && data.votos[id] !== undefined) {
+      contador.textContent = data.votos[id];
+    } else {
+      //contador.textContent = 0; // Valor por defecto si no existe en localStorage
     }
-
-    actualizarInterfaz();
-
-    btnMas.addEventListener('click', function () {
-      if (!votoPropio) {
-        contador++;
-        localStorage.setItem(`votos_${id}`, contador);
-        localStorage.setItem(`votoPropio_${id}`, 'true');
-        contadorElem.textContent = contador;
-        votoPropio = true;
-        actualizarInterfaz();
-      }
-    });
-
-    btnMenos.addEventListener('click', function () {
-      if (votoPropio) {
-        contador--;
-        if (contador < 0) contador = 0;
-        localStorage.setItem(`votos_${id}`, contador);
-        localStorage.setItem(`votoPropio_${id}`, 'false');
-        contadorElem.textContent = contador;
-        votoPropio = false;
-        actualizarInterfaz();
-      }
-    });
   });
-});
+}
 
+function votar(id, incremento) {
+  // Leer datos actuales
+  const data = JSON.parse(localStorage.getItem("data")) || { votos: {}, visitas: 0 };
+  const votosUsuario = JSON.parse(localStorage.getItem("votosUsuario")) || {}; // quién votó el usuario
+
+  if (incremento === 1) {
+    // Si el usuario ya votó a este jugador, no sumamos
+    if (votosUsuario[id]) {
+      
+      return;
+    }
+    data.votos[id] = (data.votos[id] || 0) + 1;
+    votosUsuario[id] = true; // marcar que votó
+  }
+
+  if (incremento === -1) {
+    // Solo puede restar si ya había votado
+    if (!votosUsuario[id]) {
+     
+      return;
+    }
+    data.votos[id] = Math.max(0, (data.votos[id] || 0) - 1);
+    delete votosUsuario[id]; // quitar el registro de que votó
+  }
+
+  // Guardar cambios
+  localStorage.setItem("data", JSON.stringify(data));
+  localStorage.setItem("votosUsuario", JSON.stringify(votosUsuario));
+
+  // Actualizar contador en pantalla
+  const card = document.querySelector(`.jugador-card[data-id="${id}"]`);
+  if (card) {
+    card.querySelector(".contador").textContent = data.votos[id];
+  }
+}
+
+// Asociar eventos
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".jugador-card").forEach(card => {
+    const id = card.dataset.id;
+
+    const btnMas = card.querySelector(".incrementar");
+    const btnMenos = card.querySelector(".decrementar");
+
+    if (btnMas) btnMas.addEventListener("click", () => votar(id, 1));
+    if (btnMenos) btnMenos.addEventListener("click", () => votar(id, -1));
+  });
+
+  cargarVotos();
+});

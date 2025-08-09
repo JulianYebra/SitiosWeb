@@ -42,7 +42,7 @@ async  function dibujarContador(data) {
 
 
     var n = data.visitas;
-
+  
 
     if (n === null) {
       n = 0;
@@ -76,27 +76,10 @@ async  function dibujarContador(data) {
     window.addEventListener('DOMContentLoaded', function () {
       //console.log('La página se ha renderizado por primera vez');
       // Aquí puedes poner cualquier lógica que quieras ejecutar solo una vez
-      leerContador();
+
     });
 
-  async function leerContador() {
-            const binId = '68929a10ae596e708fc29f09';
-            
-            try {
-                
-              const result = await jsonbinClient.readBin();
-
-              dibujarContador( result.record);
-
-              contarVotos(result.record.votos)
-
-
-
-
-            } catch (error) {
-                console.log(`❌ Error al leer bin: ${error.message}`, 'error');
-            }
-        }
+  
 </script>
 
 <script>
@@ -113,27 +96,6 @@ async  function dibujarContador(data) {
         
       }
     }
-
-</script>
-
-
-<script>
-
-function contarVotos(votos){
-
-  // Convertir el objeto en un array de pares [clave, valor]
-  const pares = Object.entries(votos);
-
-  // Ordenar por la cantidad de votos, de mayor a menor
-  const ordenados = pares.sort((a, b) => b[1] - a[1]);
-
-  // Tomar los primeros 3
-  const top3 = ordenados.slice(0, 3);
-
-  localStorage.setItem("JugadoresDestacados",JSON.stringify(top3))
-
-  //return JSON.stringify(top3); // Devuelve array de [clave, valor]
-}
 
 </script>
 

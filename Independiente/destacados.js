@@ -1,4 +1,5 @@
- document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
+
     const jugadores = [
   { id: "idRodrigorey", nombre: "Rodrigo Rey", img: "https://clubaindependiente.com.ar/cache/plantel/rey.jpg" },
   { id: "idMateoMorro", nombre: "Mateo Morro", img: "https://clubaindependiente.com.ar/cache/plantel/morro.jpg" },
@@ -27,7 +28,10 @@
   { id: "idmazzanti", nombre: "Walter Mazzanti", img: "https://santafedeportivo.com/wp-content/uploads/2025/06/Imagen-de-WhatsApp-2025-06-16-a-las-15.49.13_fdf24e50.jpg" }
   ];
 
- const destacadosJSON = localStorage.getItem("JugadoresDestacados");
+
+    await  leerContador();
+
+const destacadosJSON = localStorage.getItem("JugadoresDestacados");
     let destacados = [];
 
     if (destacadosJSON) {
@@ -49,7 +53,6 @@
         }
     }
 
-
 const contenedor = document.querySelector('#destacados');
     if (contenedor && destacados.length > 0) {
         contenedor.innerHTML = destacados.map(j => `
@@ -63,3 +66,42 @@ const contenedor = document.querySelector('#destacados');
 
 
 });
+
+
+async function leerContador() {
+            const binId = '68929a10ae596e708fc29f09';
+            
+            try {
+                
+                const result = await jsonbinClient.readBin();
+
+                localStorage.setItem("data",JSON.stringify(result.record));
+
+
+                dibujarContador( result.record);
+
+                contarVotos(result.record.votos)
+
+
+
+
+            } catch (error) {
+                console.log(`❌ Error al leer bin: ${error.message}`, 'error');
+            }
+ }
+
+ function contarVotos(votos){
+
+  // Convertir el objeto en un array de pares [clave, valor]
+  const pares = Object.entries(votos);
+
+  // Ordenar por la cantidad de votos, de mayor a menor
+  const ordenados = pares.sort((a, b) => b[1] - a[1]);
+
+  // Tomar los primeros 3
+  const top3 = ordenados.slice(0, 3);
+
+  localStorage.setItem("JugadoresDestacados",JSON.stringify(top3))
+
+  //return JSON.stringify(top3); // Devuelve array de [clave, valor]
+}
