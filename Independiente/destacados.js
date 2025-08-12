@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   ];
 
 
-    await  leerContador();
+await  leerContador();
 
 const destacadosJSON = localStorage.getItem("JugadoresDestacados");
     let destacados = [];
@@ -72,8 +72,10 @@ async function leerContador() {
             const binId = '68929a10ae596e708fc29f09';
             
             try {
-                
+
+                //showSpinner();
                 const result = await jsonbinClient.readBin();
+
 
                 localStorage.setItem("data",JSON.stringify(result.record));
 
@@ -82,7 +84,7 @@ async function leerContador() {
 
                 contarVotos(result.record.votos)
 
-
+                //hideSpinner();
 
 
             } catch (error) {
@@ -105,3 +107,28 @@ async function leerContador() {
 
   //return JSON.stringify(top3); // Devuelve array de [clave, valor]
 }
+
+  // Mostrar el spinner
+function showSpinner() {
+    document.getElementById('spinner-overlay').style.display = 'flex';
+}
+
+// Ocultar el spinner
+function hideSpinner() {
+    document.getElementById('spinner-overlay').style.display = 'none';
+}
+
+
+// Interceptar todas las llamadas fetch
+const originalFetch = window.fetch;
+window.fetch = async function(...args) {
+    showSpinner();
+    try {
+        const response = await originalFetch(...args);
+        return response;
+    } finally {
+        hideSpinner();
+    }
+};
+
+

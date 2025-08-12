@@ -36,7 +36,7 @@
     
     </div>
 
-    <div class="jugador-card" data-id="idMateoMorro">
+    <!-- <div class="jugador-card" data-id="idMateoMorro">
       <img src="https://clubaindependiente.com.ar/cache/plantel/morro.jpg" alt="Mateo Morro" class="jugador-img" />
       <p>Mateo Morro</p>
 
@@ -65,7 +65,7 @@
       <p class="contador">0</p>
       <button class="incrementar">+</button>
       <button class="decrementar">-</button>
-    </div>
+    </div> -->
   </div>
 
   <!-- Defensores -->
@@ -234,7 +234,7 @@
       <button class="decrementar">-</button>
     </div>
     <div class="jugador-card" data-id="idpusseto">
-      <img src="https://www.ole.com.ar/2025/07/12/qPsudn6V3_300x220__1.jpg" alt="pussetto" class="jugador-img"/>
+      <img src="https://www.ole.com.ar/2025/07/12/qPsudn6V3_1290x760__1.jpg" alt="pussetto" class="jugador-img"/>
       <p>Ignacio Pussetto</p>
       <h1>Votar</h1>
       <p class="contador">0</p>
@@ -277,6 +277,24 @@
     });
 
 </script>
+<script src="jsonbin-client.js"></script>
+
+<script>
+
+  async function updateBin(data){
+    
+    
+      try {
+      
+        const result = await jsonbinClient.updateBin(data);   
+      }
+      catch(error) {
+                  console.log(`❌ Error al actualizar bin: ${error.message}`, 'error');
+      }
+    }
+
+</script>
+
 
 <footer>
   <a href="index.html">Menú</a>
@@ -284,8 +302,6 @@
   <a href="jugadores.html">Jugadores</a>
   |
   <a href="titulos.html">Títulos</a>
-  |
-  <a href="index.html">contactanos</a>
 </footer>
 
 </body>

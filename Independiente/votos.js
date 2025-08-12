@@ -49,6 +49,9 @@ function votar(id, incremento) {
   if (card) {
     card.querySelector(".contador").textContent = data.votos[id];
   }
+
+  updateBin(data);
+
 }
 
 // Asociar eventos
