@@ -15,7 +15,7 @@
 
 <nav>
   <a href="index.html"><button>Menú</button></a>
-    <a href="jugadores.html"><button>Jugadores</button></a> 
+    <a href="jugadores.html"><button>Votar</button></a> 
   <a href="titulos.html"><button>Títulos</button></a>
 </nav>
 
@@ -128,7 +128,7 @@
       <button class="decrementar">-</button>
     </div>
     <div class="jugador-card" data-id="idzabala">
-      <img src="https://www.ole.com.ar/2025/07/24/TBz703kNj_1290x760__1.jpg" alt="zabala" class="jugador-img"/>
+      <img src="https://clubaindependiente.com.ar/cache/plantel/zabala.jpg" alt="zabala" class="jugador-img"/>
       <p>Facundo Zabala</p>
       <h1>Votar</h1>
       <p class="contador">0</p>
@@ -136,7 +136,7 @@
       <button class="decrementar">-</button>
     </div>
     <div class="jugador-card" data-id="idmilton">
-      <img src="https://www.ole.com.ar/2025/07/16/9gfLQZcOb_1290x760__1.jpg" alt="valenzuela" class="jugador-img"/>
+      <img src="https://clubaindependiente.com.ar/cache/plantel/valenzuela.jpg" alt="valenzuela" class="jugador-img"/>
       <p>Milton Valenzuela</p>
       <h1>Votar</h1>
       <p class="contador">0</p>
@@ -144,7 +144,7 @@
       <button class="decrementar">-</button>
     </div>
     <div class="jugador-card" data-id="idleo">
-      <img src="https://media.tycsports.com/files/2025/06/17/853803/leo-godoy_416x555.webp" alt="pussetto" class="jugador-img"/>
+      <img src="https://clubaindependiente.com.ar/cache/plantel/godoy.jpg" alt="godoy" class="jugador-img"/>
       <p>Leonardo Godoy</p>
       <h1>Votar</h1>
       <p class="contador">0</p>
@@ -234,7 +234,7 @@
       <button class="decrementar">-</button>
     </div>
     <div class="jugador-card" data-id="idpusseto">
-      <img src="https://www.ole.com.ar/2025/07/12/qPsudn6V3_1290x760__1.jpg" alt="pussetto" class="jugador-img"/>
+      <img src="https://clubaindependiente.com.ar/cache/plantel/pussetto.jpg" alt="pussetto" class="jugador-img"/>
       <p>Ignacio Pussetto</p>
       <h1>Votar</h1>
       <p class="contador">0</p>
@@ -242,8 +242,16 @@
       <button class="decrementar">-</button>
     </div>
     <div class="jugador-card" data-id="idmazzanti">
-      <img src="https://santafedeportivo.com/wp-content/uploads/2025/06/Imagen-de-WhatsApp-2025-06-16-a-las-15.49.13_fdf24e50.jpg" alt="pussetto" class="jugador-img"/>
-      <p>Walter Mazzanti</p>
+      <img src="https://clubaindependiente.com.ar/cache/plantel/mazzantti.jpg" alt="mazzantti" class="jugador-img"/>
+      <p>Walter Mazzantti</p>
+      <h1>Votar</h1>
+      <p class="contador">0</p>
+      <button class="incrementar">+</button>
+      <button class="decrementar">-</button>
+    </div>
+    <div class="jugador-card" data-id="idabaldo">
+      <img src="https://clubaindependiente.com.ar/cache/plantel/abaldo.jpg" alt="abaldo" class="jugador-img"/>
+      <p>Matias Abaldo</p>
       <h1>Votar</h1>
       <p class="contador">0</p>
       <button class="incrementar">+</button>
@@ -261,40 +269,7 @@
   </div>
 </section>
 
-<script src="votos.js"></script>
-
-
-<script>
-
-    // Esto se ejecutará una sola vez cuando la página se cargue por primera vez
-    window.addEventListener('DOMContentLoaded', function () {
-      //console.log('La página se ha renderizado por primera vez');
-      // Aquí puedes poner cualquier lógica que quieras ejecutar solo una vez
-
-    cargarVotos();
-
-
-    });
-
-</script>
-<script src="jsonbin-client.js"></script>
-
-<script>
-
-  async function updateBin(data){
-    
-    
-      try {
-      
-        const result = await jsonbinClient.updateBin(data);   
-      }
-      catch(error) {
-                  console.log(`❌ Error al actualizar bin: ${error.message}`, 'error');
-      }
-    }
-
-</script>
-
+<script type="module" src="votos.js"></script>
 
 <footer>
   <a href="index.html">Menú</a>

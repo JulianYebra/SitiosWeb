@@ -9,6 +9,7 @@
 </head>
 <body>
 
+
 <header class="titulo">
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Escudo_del_Club_Atl%C3%A9tico_Independiente.svg/250px-Escudo_del_Club_Atl%C3%A9tico_Independiente.svg.png" alt="Escudo de Independiente" class="escudo">
   <h1>Club Atlético Independiente</h1>
@@ -16,11 +17,11 @@
 
 <nav>
   <a href="index.html"><button>Menú</button></a>
-    <a href="jugadores.html"><button>Jugadores</button></a> 
+    <a href="jugadores.html"><button>Votar</button></a> 
   <a href="titulos.html"><button>Títulos</button></a>
 </nav>
 
-<div id="CounterVisitor"></div>
+
 
 
 <div id="spinner-overlay" class="spinner-overlay">
@@ -28,7 +29,7 @@
     </div>
 
 <section id="jugadores">
-  <h2>Los 3 mejores jugadores del plantel actualmente</h2>
+  <h2>Los 3 jugadores más votados del plantel</h2>
   <div id="destacados"></div> <!-- aca se insertan los jugadores desde JS -->
 </section>
 
@@ -39,42 +40,7 @@
   }
 </script>
 
-<script>
-  
-async  function dibujarContador(data) {
 
-//localStorage.setItem("datosJSON", result);
-
-
-    var n = data.visitas;
-  
-
-    if (n === null) {
-      n = 0;
-    }
-    n++;
-    //localStorage.setItem("on_load_counter", n);
-
-    data.visitas = n;
-
-    let nums = n.toString().split('').map(Number);
-    let counterHTML = '<div class="counter-title">Visitas a la página</div>';
-    counterHTML += '<div class="counter-number">';
-      for (var i of nums) {
-        counterHTML += '<div class="counter-digit">' + i + '</div>';
-      }
-    counterHTML += '</div>';
-    counterHTML += '<div class="counter-label"></div>';
-
-    document.getElementById('CounterVisitor').innerHTML = counterHTML;
-
-      updateBin(data);
-
-  }
-</script>
-
-
-<script src="jsonbin-client.js"></script>
 <script>
 
     // Esto se ejecutará una sola vez cuando la página se cargue por primera vez
@@ -86,42 +52,19 @@ async  function dibujarContador(data) {
       localStorage.removeItem("JugadoresDestacados")
 
     });
-
-  
 </script>
 
-
-<script>
-
-
-
-
-  async function updateBin(data){
-    
-    
-      try {
-
-        const result = await jsonbinClient.updateBin(data);  
-
-      }
-      catch(error) {
-                  console.log(`❌ Error al actualizar bin: ${error.message}`, 'error');
-      }
-    }
-
-</script>
-
-
-<script src="destacados.js"></script>
-
+<div id="CounterVisitor" style="margin-bottom: 2%;" ></div>
 
 <footer>
+
   <a href="index.html">Menú</a>
   |
   <a href="jugadores.html">Jugadores</a>
   |
   <a href="titulos.html">Títulos</a>
 </footer>
-
+<script type="module" src="destacados.js"></script>
 </body>
+
 </html>

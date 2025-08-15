@@ -1,3 +1,5 @@
+import { Jsonbin } from './funciongetput.js';
+
 function cargarVotos() {
   // Cargar datos desde localStorage
   const data = JSON.parse(localStorage.getItem("data")) || { votos: {} };
@@ -68,3 +70,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   cargarVotos();
 });
+
+
+async function updateBin(data){
+    
+      try {
+
+        const result = await Jsonbin.updateBin(data);  
+        
+      }
+      catch(error) {
+                  console.log(`❌ Error al actualizar bin: ${error.message}`, 'error');
+      }
+  };

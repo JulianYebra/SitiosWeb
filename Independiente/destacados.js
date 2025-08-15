@@ -1,3 +1,5 @@
+import { Jsonbin } from './funciongetput.js';
+
 document.addEventListener('DOMContentLoaded', async function () {
 
     const jugadores = [
@@ -12,9 +14,9 @@ document.addEventListener('DOMContentLoaded', async function () {
   { id: "idirastorza", nombre: "Jonathan De Irastorza", img: "https://clubaindependiente.com.ar/cache/plantel/de-irastorza.jpg" },
   { id: "idvera", nombre: "Federico Vera", img: "https://clubaindependiente.com.ar/cache/plantel/vera.jpg" },
   { id: "idfreire", nombre: "Nicolás Freire", img: "https://clubaindependiente.com.ar/cache/plantel/freire.jpg" },
-  { id: "idzabala", nombre: "Facundo Zabala", img: "https://www.ole.com.ar/2025/07/24/TBz703kNj_1290x760__1.jpg" },
-  { id: "idmilton", nombre: "Milton Valenzuela", img: "https://www.ole.com.ar/2025/07/16/9gfLQZcOb_1290x760__1.jpg" },
-  { id: "idleo", nombre: "Leonardo Godoy", img: "https://media.tycsports.com/files/2025/06/17/853803/leo-godoy_416x555.webp" },
+  { id: "idzabala", nombre: "Facundo Zabala", img: "https://clubaindependiente.com.ar/cache/plantel/zabala.jpg" },
+  { id: "idmilton", nombre: "Milton Valenzuela", img: "https://clubaindependiente.com.ar/cache/plantel/valenzuela.jpg" },
+  { id: "idleo", nombre: "Leonardo Godoy", img: "https://clubaindependiente.com.ar/cache/plantel/godoy.jpg" },
   { id: "idcabral", nombre: "Luciano Cabral", img: "https://clubaindependiente.com.ar/cache/plantel/cabral.jpg" },
   { id: "idcedres", nombre: "Rodrigo Cedrés", img: "https://clubaindependiente.com.ar/cache/plantel/fernandez-cedres.jpg" },
   { id: "idgaldames", nombre: "Pablo Galdames", img: "https://clubaindependiente.com.ar/cache/plantel/galdames.jpg" },
@@ -24,8 +26,9 @@ document.addEventListener('DOMContentLoaded', async function () {
   { id: "idmancu", nombre: "Federico Mancuello", img: "https://clubaindependiente.com.ar/cache/plantel/mancuello.jpg" },
   { id: "idavalos", nombre: "Gabriel Ávalos", img: "https://clubaindependiente.com.ar/cache/plantel/avalos.jpg" },
   { id: "idmontiel", nombre: "Santiago Montiel", img: "https://clubaindependiente.com.ar/cache/plantel/montiel.jpg" },
-  { id: "idpusseto", nombre: "Ignacio Pussetto", img: "https://www.ole.com.ar/2025/07/12/qPsudn6V3_300x220__1.jpg" },
-  { id: "idmazzanti", nombre: "Walter Mazzanti", img: "https://santafedeportivo.com/wp-content/uploads/2025/06/Imagen-de-WhatsApp-2025-06-16-a-las-15.49.13_fdf24e50.jpg" }
+  { id: "idpusseto", nombre: "Ignacio Pussetto", img: "https://clubaindependiente.com.ar/cache/plantel/pussetto.jpg" },
+  { id: "idmazzanti", nombre: "Walter Mazzanti", img: "https://clubaindependiente.com.ar/cache/plantel/mazzantti.jpg" },
+  { id: "idabaldo", nombre: "Matias Abaldo", img: "https://clubaindependiente.com.ar/cache/plantel/abaldo.jpg" }
   ];
 
 
@@ -69,12 +72,13 @@ const contenedor = document.querySelector('#destacados');
 
 
 async function leerContador() {
+
             const binId = '68929a10ae596e708fc29f09';
             
             try {
 
                 //showSpinner();
-                const result = await jsonbinClient.readBin();
+                const result = await Jsonbin.readBin();
 
 
                 localStorage.setItem("data",JSON.stringify(result.record));
@@ -108,18 +112,19 @@ async function leerContador() {
   //return JSON.stringify(top3); // Devuelve array de [clave, valor]
 }
 
-  // Mostrar el spinner
+  // Mostrar el spinner de forma segura
 function showSpinner() {
-    document.getElementById('spinner-overlay').style.display = 'flex';
+    const spinner = document.getElementById('spinner-overlay');
+    if (spinner) spinner.style.display = 'flex';
 }
 
-// Ocultar el spinner
+// Ocultar el spinner de forma segura
 function hideSpinner() {
-    document.getElementById('spinner-overlay').style.display = 'none';
+    const spinner = document.getElementById('spinner-overlay');
+    if (spinner) spinner.style.display = 'none';
 }
 
-
-// Interceptar todas las llamadas fetch
+// Interceptar todas las llamadas fetch y mostrar spinner
 const originalFetch = window.fetch;
 window.fetch = async function(...args) {
     showSpinner();
@@ -131,4 +136,46 @@ window.fetch = async function(...args) {
     }
 };
 
+  async function updateBin(data){
+    
+      try {
+
+        const result = await Jsonbin.updateBin(data);  
+        
+      }
+      catch(error) {
+                  console.log(`❌ Error al actualizar bin: ${error.message}`, 'error');
+      }
+  };
+
+  async  function dibujarContador(data) {
+
+//localStorage.setItem("datosJSON", result);
+
+
+    var n = data.visitas;
+  
+
+    if (n === null) {
+      n = 0;
+    }
+    n++;
+    //localStorage.setItem("on_load_counter", n);
+
+    data.visitas = n;
+
+    let nums = n.toString().split('').map(Number);
+    let counterHTML = '<div class="counter-title">Visitas a la página</div>';
+    counterHTML += '<div class="counter-number">';
+      for (var i of nums) {
+        counterHTML += '<div class="counter-digit">' + i + '</div>';
+      }
+    counterHTML += '</div>';
+    counterHTML += '<div class="counter-label"></div>';
+
+    document.getElementById('CounterVisitor').innerHTML = counterHTML;
+
+    updateBin(data);
+
+  }
 

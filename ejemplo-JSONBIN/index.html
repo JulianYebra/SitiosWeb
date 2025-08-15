@@ -83,7 +83,7 @@
         </div>
     </div>
 
-    <script src="jsonbin-client.js"></script>
+    <script src="funciongetput.js"></script>
     <script>
         // Inicializar la aplicación
         document.addEventListener('DOMContentLoaded', function() {
@@ -195,7 +195,7 @@
             try {
                 showResult('🔄 Leyendo datos del bin...', 'info');
                 
-                const result = await jsonbinClient.readBin(binId);
+                const result = await readBin(binId);
                 
                 showResult(`✅ Datos leídos exitosamente!<br>
                            <strong>Datos:</strong><br>
